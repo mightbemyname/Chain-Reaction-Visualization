@@ -1,6 +1,6 @@
 # Chain Reaction Lab
 
-**One spark. How far does it go?**
+ `https://mightbemyname.github.io/Chain-Reaction-Visualization/
 
 An interactive mathematical laboratory for probabilistic propagation on graphs. Build a network, choose an initial source, and watch its probability distribution change as you add connections. Explore cascade sizes, alternate paths, directed transmission, and the difference between a possible transmission and the connection that actually causes an activation.
 
@@ -8,9 +8,7 @@ Runs entirely in your browser. No backend, accounts, database, analytics, paid s
 
 ![Chain Reaction Lab showing the bidirectional fourteen-node lattice and its activation distribution](docs/screenshot.png)
 
-**Live application:** not published yet. This repository currently has no GitHub remote, so an actual live URL cannot be supplied. After publication the application will be at `https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/`. Replace this sentence with your live application link when setting up the public repository.
 
-## Explore
 
 - **Interactive Cytoscape graph editor:** place, drag, select, connect, remove, and choose the initial source. Pan, fast wheel zoom, resize the canvas vertically, fit, reset layout, undo, and redo.
 - **Three connection modes:** undirected adjacency, symmetric directed adjacency, and arbitrary directed arcs. Each direction is an independent transmission opportunity.
@@ -127,16 +125,6 @@ Connection metrics are deliberately separate:
 
 Wilson confidence intervals are provided for Monte Carlo histogram bins. They are marginal 95% intervals, not simultaneous guarantees across every bin. The full-activation interval appears in simulation controls, and every bin’s interval is exported to CSV. Comparison graphs above 14 nodes use at most 100,000 trials per setting, with the selected seed.
 
-### Known results at p = 10%
-
-| Graph and source | P(all activate) |
-| --- | ---: |
-| One isolated source | 100% |
-| Two connected nodes | 10% |
-| Three-node chain, endpoint source | 1% |
-| Three-node triangle | 2.8% |
-| Diamond: 1–A, 1–B, 1–C, A–B, B–C; source 1 | 0.694% |
-
 Tests also check normalization, marginals, directed/disconnected graphs, heterogeneous probabilities, certain/impossible transmission, independently enumerated arc states, seeded convergence, and simulation causation.
 
 ## Save and share
@@ -166,55 +154,6 @@ Node/edge IDs are unique strings and distinct from one another. Self-connections
 Try [diamond.json](examples/diamond.json), [triangle.json](examples/triangle.json), or [directed-routes.json](examples/directed-routes.json). Import them with the toolbar.
 
 **Share graph** copies a link with the JSON encoded in the URL fragment. The fragment is read by the browser and is not sent to the hosting server. A shared fragment takes precedence over local storage on load; open the plain application URL to resume your browser-local graph. Large graphs produce long links that some applications truncate; use JSON instead. The URL contains your graph openly, so share it only with the intended recipients. Browser storage is local to the current origin and is not synchronized across devices.
-
-## Deploy to GitHub Pages
-
-The project is prepared for Pages but has **not** been published. Creating a GitHub repository, authenticating, and pushing this code remain actions for the repository owner to authorize.
-
-1. Create or choose a public GitHub repository and push this project to its `main` branch.
-2. Open **Settings → Pages** and choose **GitHub Actions** as the source.
-3. Allow the workflow in [.github/workflows/deploy.yml](.github/workflows/deploy.yml). Push to `main` or run it manually from the Actions tab.
-4. The workflow runs `npm ci`, mathematical tests, Chromium browser tests, TypeScript checks, and the production build before uploading `dist/` and deploying. Pull requests run validation without publishing.
-5. Open the deployment URL shown by the workflow. Add that real link to this README and the repository’s website field.
-
-The workflow derives the Vite base path from `GITHUB_REPOSITORY`: `/<repository-name>/` for project Pages, or `/` for a `<username>.github.io` repository. No guessed repository name is hardcoded. Local builds use relative assets (`./`), which also work at a project path. To build for a known path manually:
-
-```sh
-# macOS / Linux
-VITE_BASE_PATH=/your-repository/ npm run build
-```
-
-```powershell
-# PowerShell
-$env:VITE_BASE_PATH = '/your-repository/'
-npm run build
-Remove-Item Env:VITE_BASE_PATH
-```
-
-For a custom domain, set the build’s `VITE_BASE_PATH` to `/` and follow GitHub’s domain setup. Keep `.gitignore` exclusions for dependencies, build artifacts, environment files, and credentials. Pages deployment uses GitHub’s short-lived workflow token and requires no stored deployment secret. Future approved pushes to `main` repeat the validation/deployment automatically. This setup follows the [Vite GitHub Pages deployment guidance](https://vite.dev/guide/static-deploy.html#github-pages).
-
-## Architecture and practical boundaries
-
-```text
-src/model.ts               Graph types and independent arc expansion
-src/graphs.ts              Presets and mode conversion
-src/probability.ts          UI-independent exact, simulation, and statistics
-src/calculation.worker.ts   Worker request/progress/result protocol
-src/useCalculation.ts       Debounce, lifecycle, cancellation, stale-result cleanup
-src/GraphCanvas.tsx         Cytoscape editor, overlays, hover, animation
-src/Charts.tsx              Recharts distributions, comparisons, CSV/SVG
-src/storage.ts             Validated JSON, local storage, downloads
-src/App.tsx                 Application controls and editing history
-```
-
-Deliberate limits keep this first version focused:
-
-- The subset explanation table is displayed for up to 8 nodes; all source-containing subsets are still calculated up to 14 nodes.
-- Comparison curves connect the selected computed settings (up to 25), rather than continuously calculating every possible probability.
-- Charts export SVG and CSV; PNG export is left to the browser or an SVG conversion tool.
-- Browser storage preserves graph configuration. UI tab, animation progress, undo history, and simulation/display preferences reset on reload.
-- The application uses a dark theme with system-font fallbacks; no external font service is needed.
-- There is no graph-theoretic or simulation-node limit in the mathematical module, but the editor’s import/generator limits and available browser resources bound practical use.
 
 ## Licence
 
