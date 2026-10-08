@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "graph": {
+    "mode": "undirected",
+    "probability": 0.1,
+    "source": "1",
+    "nodes": [
+      { "id": "1", "x": 310, "y": 65 },
+      { "id": "A", "x": 125, "y": 250 },
+      { "id": "B", "x": 310, "y": 400 },
+      { "id": "C", "x": 495, "y": 250 }
+    ],
+    "edges": [
+      { "id": "e1", "source": "1", "target": "A" },
+      { "id": "e2", "source": "1", "target": "B" },
+      { "id": "e3", "source": "1", "target": "C" },
+      { "id": "e4", "source": "A", "target": "B" },
+      { "id": "e5", "source": "B", "target": "C" }
+    ]
+  }
+}

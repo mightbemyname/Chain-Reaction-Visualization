@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "graph": {
+    "mode": "directed", "probability": 0.3, "source": "Start",
+    "nodes": [
+      { "id": "Start", "x": 90, "y": 230 },
+      { "id": "Upper", "x": 280, "y": 110 },
+      { "id": "Lower", "x": 280, "y": 350 },
+      { "id": "End", "x": 480, "y": 230 },
+      { "id": "Isolated", "x": 480, "y": 430 }
+    ],
+    "edges": [
+      { "id": "a", "source": "Start", "target": "Upper", "probability": 0.2 },
+      { "id": "b", "source": "Start", "target": "Lower", "probability": 0.8 },
+      { "id": "c", "source": "Upper", "target": "End", "probability": 0.9 },
+      { "id": "d", "source": "Lower", "target": "End" },
+      { "id": "e", "source": "End", "target": "Upper", "probability": 0.5 }
+    ]
+  }
+}
